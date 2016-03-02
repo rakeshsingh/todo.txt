@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
+import click
+
 from utils import(
     _todo_from_file,
     format_print
@@ -10,6 +12,10 @@ from consts import (
     COMPLETE,
     STATUS_CODE
 )
+
+
+class NoTodoFileFoundError(Exception):
+    pass
 
 
 class InvalidTodoStatus(Exception):
@@ -47,7 +53,7 @@ class Todo(object):
         self.init()
 
     def __getitem__(self, idx):
-        pass
+        self._show_todos(idx=idx)
 
     def init(self):
         """init `todo` file
@@ -65,6 +71,8 @@ class Todo(object):
                 for todo in todos:
                     if self.current_max_idx< todo['idx']:
                         self.current_max_idx = todo['idx']
+        else:
+            raise NoTodoFileFoundError('Cannot found your todo file in current directory')
 
     def add_todo(self, text, status=WAITING):
         idx = self.current_max_idx + 1
@@ -85,11 +93,16 @@ class Todo(object):
     def remove_todo(self, idx):
         pass
 
-    def _show_todos(self, status=None):
+    def _show_todos(self, status=None, idx=None):
         """show todos after format
         :param status: what status's todos wants to show.
         default is None, means show all
         """
+        if idx is not None:
+            for todo in self.todos:
+                if todo['idx'] == idx:
+                    format_print(todo['idx'], todo['status'], todo['text'])
+            return
         if status is not None:
             if status not in STATUS_CODE:
                 raise InvalidTodoStatus
@@ -101,10 +114,10 @@ class Todo(object):
             format_print(todo['idx'], todo['status'], todo['text'])
 
     def show_waiting_todos(self):
-        self._show_todos(WAITING)
+        self._show_todos(status=WAITING)
 
     def show_done_todos(self):
-        self._show_todos(COMPLETE)
+        self._show_todos(status=COMPLETE)
 
     def show_all_todos(self):
         self._show_todos()
@@ -115,9 +128,9 @@ class Todo(object):
         """
         pass
 
-if __name__ == '__main__':
+
+@click.command()
+@click.version_option()
+def todos():
     t = Todo()
-    t.show_all_todos()
-    print
-    t.finish_todo(1)
     t.show_all_todos()
