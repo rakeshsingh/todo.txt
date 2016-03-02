@@ -78,13 +78,9 @@ class Todo(object):
         pass
 
     def finish_todo(self, idx):
-        if idx > len(self.todos):
-            raise
-        _idx = 1
         for todo in self.todos:
-            if idx == _idx:
-                self.todos[todo] = COMPLETE
-            _idx += 1
+            if todo['idx'] == idx:
+                todo['status'] = COMPLETE
 
     def remove_todo(self, idx):
         pass
@@ -123,9 +119,5 @@ if __name__ == '__main__':
     t = Todo()
     t.show_all_todos()
     print
-    t.add_todo('kiven\'s test')
+    t.finish_todo(1)
     t.show_all_todos()
-    print
-    t.show_waiting_todos()
-    print
-    t.show_done_todos()
