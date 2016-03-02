@@ -1,23 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import os
-import re
-import emoji
-
-##
-# status for tods
-##
-WAITING = 'o'
-COMPLETE = 'x'
-STATUS_CODE = [WAITING, COMPLETE]
-
-##
-# emoji for every status
-##
-EMOJI = {
-    WAITING: ':heavy_multiplication_x:',
-    COMPLETE: ':heavy_check_mark:'
-}
+from utils import(
+    _todo_from_file,
+    format_print
+)
+from consts import (
+    WAITING,
+    COMPLETE,
+    STATUS_CODE
+)
 
 
 class InvalidTodoStatus(Exception):
@@ -32,25 +24,6 @@ class UnknowTodo(Exception):
     def __init__(self, prefix):
         super(UnknowTodo, self).__init__()
         self.prefix = prefix
-
-
-def _todo_from_file(line):
-    _one_todo = line.split()
-    idx, status, text = _one_todo[0], _one_todo[1], ' '.join(_one_todo[2:])
-    idx = re.sub('\.', '', idx)
-    status = re.sub('\[|\]', '', status)
-    return {
-        'idx': int(idx),
-        'status': status,
-        'text': text
-    }
-
-
-def format_print(idx, status, text):
-    e = EMOJI.get(status, None)
-    if e is None:
-        raise
-    print emoji.emojize('{}. {}  {}'.format(idx, e, text), use_aliases=True)
 
 
 class Todo(object):
