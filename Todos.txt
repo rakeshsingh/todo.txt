@@ -1,2 +1,2 @@
-- [ ] a test todo
-- [ ] another todo
+1. [o] a test todo
+2. [x] another todo
