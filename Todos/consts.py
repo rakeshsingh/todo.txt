@@ -17,4 +17,6 @@ EMOJI = {
     NOTODOS: ':x:'
 }
 
+DEFAULT_TODO_FILE = 'Todos.txt'
+
 NO_TODOS_SHOW = [-1, NOTODOS, 'No todos...']

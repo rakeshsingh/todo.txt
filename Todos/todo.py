@@ -12,13 +12,16 @@ from .exc import (
 from .utils import(
     _todo_from_file,
     format_show,
-    _todo_to_file
+    _todo_to_file,
+    set_todo_file,
+    get_todo_file
 )
 from .consts import (
     WAITING,
     COMPLETE,
     STATUS_CODE,
-    NO_TODOS_SHOW
+    NO_TODOS_SHOW,
+    DEFAULT_TODO_FILE
 )
 
 logger = logging.getLogger(__name__)
@@ -26,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 class Todo(object):
 
-    def __init__(self, todo_dir='.', name='Todos.txt'):
+    def __init__(self, todo_dir='.', name=DEFAULT_TODO_FILE):
         """Todo Base Class
         :param todo_dir: file path to store todos
         :param name: file name
@@ -148,6 +151,9 @@ def check_complete_ids(ctx, param, value):
 
 @click.command()
 @click.version_option()
+@click.option('--what', is_flag=True, default=False,
+              help='show current use todo file\'s name')
+@click.option('--name', help='use `name` file to store your todos')
 @click.option('-n', '--new', help='new todo')
 @click.option('-c', '--complete_ids', type=str, callback=check_complete_ids,
               help='complete todo by id(s)'
@@ -156,9 +162,16 @@ def check_complete_ids(ctx, param, value):
               help='show all todos')
 @click.option('--clear', is_flag=True, default=False,
               help='clear all todos, need confirm!!')
-def todos(new, complete_ids, all, clear):
+def todos(what, name, new, complete_ids, all, clear):
     setup_logging()
-    t = Todo()
+    if name:
+        set_todo_file(name)
+        logger.info('Success set todo file to `{}`'.format(name))
+    name = get_todo_file()
+    if what:
+        logger.info('current todo file\'name is `{}`'.format(name))
+        return
+    t = Todo(name=name)
     try:
         if clear:
             t.clear_all()
