@@ -1,6 +1,14 @@
 TODOS Changelog
 ===============
 
+0.1.0
+-----
+* support new a todo
+* support complete a todo
+* support clear all todos
+* support use custom file to store todos
+* can show what file to store
+
 0.0.1
 -----
 * add command line of `todos`
