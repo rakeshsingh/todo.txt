@@ -17,11 +17,6 @@ entry_points = [
     "todos = Todos.todo:todos"
 ]
 
-data = [
-    "static/*",
-    "skt/static/*"
-]
-
 setup(
     name="todos",
     version=_get_version(),
@@ -31,7 +26,6 @@ setup(
     author="kiven",
     author_email="kiven.mr@gmail.com",
     packages=find_packages(),
-    package_data={"": ["LICENSE"], "todo": data},
     url="https://github.com/MrKiven/Todo.py",
     entry_points={"console_scripts": entry_points},
     install_requires=[
