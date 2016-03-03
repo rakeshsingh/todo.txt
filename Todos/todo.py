@@ -153,7 +153,7 @@ def check_complete_ids(ctx, param, value):
 @click.version_option()
 @click.option('--what', is_flag=True, default=False,
               help='show current use todo file\'s name')
-@click.option('--name', help='use `name` file to store your todos')
+@click.option('--use', help='use `name` file to store your todos')
 @click.option('-n', '--new', help='new todo')
 @click.option('-c', '--complete_ids', type=str, callback=check_complete_ids,
               help='complete todo by id(s)'
@@ -162,16 +162,16 @@ def check_complete_ids(ctx, param, value):
               help='show all todos')
 @click.option('--clear', is_flag=True, default=False,
               help='clear all todos, need confirm!!')
-def todos(what, name, new, complete_ids, all, clear):
+def todos(what, use, new, complete_ids, all, clear):
     setup_logging()
-    if name:
-        set_todo_file(name)
-        logger.info('Success set todo file to `{}`'.format(name))
-    name = get_todo_file()
+    if use:
+        set_todo_file(use)
+        logger.info('Success set todo file to `{}`'.format(use))
+    todo_file_name = get_todo_file()
     if what:
-        logger.info('current todo file\'name is `{}`'.format(name))
+        logger.info('current todo file\'name is `{}`'.format(todo_file_name))
         return
-    t = Todo(name=name)
+    t = Todo(name=todo_file_name)
     try:
         if clear:
             t.clear_all()
