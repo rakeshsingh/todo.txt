@@ -1,0 +1,8 @@
+TODOS Changelog
+===============
+
+0.0.1
+-----
+* add command line of `todos`
+* show todos in your todo file by emoji format
+* format logging
