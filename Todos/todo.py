@@ -165,8 +165,10 @@ def todos(new, complete_ids, all, clear):
             return
         if new:
             t.add_todo(new)
+            t.write()
         elif complete_ids:
             t.finish_todo(complete_ids)
+            t.write()
         else:
             if all:
                 t.show_all_todos()
@@ -175,4 +177,4 @@ def todos(new, complete_ids, all, clear):
     except Exception as e:
         logger.error(e)
     finally:
-        t.write()
+        pass
