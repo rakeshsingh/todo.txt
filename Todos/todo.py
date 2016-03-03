@@ -11,7 +11,8 @@ from .exc import (
 )
 from .utils import(
     _todo_from_file,
-    format_show
+    format_show,
+    _todo_to_file
 )
 from .consts import (
     WAITING,
@@ -36,11 +37,11 @@ class Todo(object):
             t.show_all_todos()
             t.write()
         """
-        self.todos = None
+        self.todos = []
         self.name = name
         self.todo_dir = todo_dir
         self.path = os.path.join(os.path.expanduser(self.todo_dir), name)
-        self.current_max_idx = 1
+        self.current_max_idx = 0
         self.init()
 
     def __getitem__(self, idx):
@@ -78,13 +79,21 @@ class Todo(object):
     def edit_todo(self, idx, text):
         pass
 
-    def finish_todo(self, idx):
-        for todo in self.todos:
-            if todo['idx'] == idx:
-                todo['status'] = COMPLETE
+    def finish_todo(self, idxs):
+        for idx in idxs:
+            for todo in self.todos:
+                if todo['idx'] == int(idx):
+                    todo['status'] = COMPLETE
 
     def remove_todo(self, idx):
         pass
+
+    def clear_all(self):
+        """clear todos
+        """
+        confirm = raw_input('confirm ? (Y/N): ')
+        if confirm in ['Y', 'y']:
+            self.todos = []
 
     def _show_todos(self, status=None, idx=None):
         """show todos after format
@@ -123,12 +132,47 @@ class Todo(object):
         """flush todos to file
         :param delete_if_empty: delete if todo is empty
         """
-        pass
+        with open(self.path, 'w') as f:
+            if not self.todos:
+                f.flush()
+            else:
+                for todo in _todo_to_file(self.todos):
+                    f.write(todo)
+
+
+def check_complete_ids(ctx, param, value):
+    if not value:
+        return []
+    return value.split(',')
 
 
 @click.command()
 @click.version_option()
-def todos():
+@click.option('-n', '--new', help='new todo')
+@click.option('-c', '--complete_ids', type=str, callback=check_complete_ids,
+              help='complete todo by id(s)'
+                    ' - usage: todos -c 1,2')
+@click.option('--all', is_flag=True, default=False,
+              help='show all todos')
+@click.option('--clear', is_flag=True, default=False,
+              help='clear all todos, need confirm!!')
+def todos(new, complete_ids, all, clear):
     setup_logging()
     t = Todo()
-    t.show_all_todos()
+    try:
+        if clear:
+            t.clear_all()
+            return
+        if new:
+            t.add_todo(new)
+        elif complete_ids:
+            t.finish_todo(complete_ids)
+        else:
+            if all:
+                t.show_all_todos()
+            else:
+                t.show_waiting_todos()
+    except Exception as e:
+        logger.error(e)
+    finally:
+        t.write()

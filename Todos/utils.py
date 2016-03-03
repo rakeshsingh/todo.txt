@@ -18,6 +18,16 @@ def _todo_from_file(line):
     }
 
 
+def _todo_to_file(todos):
+    todolines = []
+    for todo in todos:
+        idx = todo['idx']
+        status = todo['status']
+        text = todo['text']
+        todolines.append('{}. [{}] {}\n'.format(idx, status, text))
+    return todolines
+
+
 def format_show(idx, status, text):
     e = EMOJI.get(status, None)
     if e is None:
