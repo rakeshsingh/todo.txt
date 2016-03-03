@@ -3,7 +3,7 @@
 import re
 import emoji
 
-from consts import EMOJI
+from .consts import EMOJI
 
 
 def _todo_from_file(line):

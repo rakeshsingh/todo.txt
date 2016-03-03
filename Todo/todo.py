@@ -2,34 +2,24 @@
 
 import os
 import click
+import logging
 
-from utils import(
+from .log import setup_logging
+from .exc import (
+    InvalidTodoFile,
+    InvalidTodoStatus
+)
+from .utils import(
     _todo_from_file,
     format_print
 )
-from consts import (
+from .consts import (
     WAITING,
     COMPLETE,
     STATUS_CODE
 )
 
-
-class NoTodoFileFoundError(Exception):
-    pass
-
-
-class InvalidTodoStatus(Exception):
-    pass
-
-
-class InvalidTodoFile(Exception):
-    pass
-
-
-class UnknowTodo(Exception):
-    def __init__(self, prefix):
-        super(UnknowTodo, self).__init__()
-        self.prefix = prefix
+logger = logging.getLogger(__name__)
 
 
 class Todo(object):
@@ -72,7 +62,9 @@ class Todo(object):
                     if self.current_max_idx< todo['idx']:
                         self.current_max_idx = todo['idx']
         else:
-            raise NoTodoFileFoundError('Cannot found your todo file in current directory')
+            logger.warning('No todo files found, initialization a empty todo file')
+            with open(self.path ,'w') as f:
+                f.flush()
 
     def add_todo(self, text, status=WAITING):
         idx = self.current_max_idx + 1
@@ -98,6 +90,8 @@ class Todo(object):
         :param status: what status's todos wants to show.
         default is None, means show all
         """
+        if self.todos is None:
+            return
         if idx is not None:
             for todo in self.todos:
                 if todo['idx'] == idx:
@@ -132,5 +126,6 @@ class Todo(object):
 @click.command()
 @click.version_option()
 def todos():
+    setup_logging()
     t = Todo()
     t.show_all_todos()
