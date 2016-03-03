@@ -11,12 +11,13 @@ from .exc import (
 )
 from .utils import(
     _todo_from_file,
-    format_print
+    format_show
 )
 from .consts import (
     WAITING,
     COMPLETE,
-    STATUS_CODE
+    STATUS_CODE,
+    NO_TODOS_SHOW
 )
 
 logger = logging.getLogger(__name__)
@@ -63,7 +64,7 @@ class Todo(object):
                         self.current_max_idx = todo['idx']
         else:
             logger.warning('No todo files found, initialization a empty todo file')
-            with open(self.path ,'w') as f:
+            with open(self.path, 'w') as f:
                 f.flush()
 
     def add_todo(self, text, status=WAITING):
@@ -90,22 +91,24 @@ class Todo(object):
         :param status: what status's todos wants to show.
         default is None, means show all
         """
-        if self.todos is None:
-            return
-        if idx is not None:
+        if not self.todos:
+            format_show(
+                NO_TODOS_SHOW[0],
+                NO_TODOS_SHOW[1],
+                NO_TODOS_SHOW[2])
+        elif idx is not None:
             for todo in self.todos:
                 if todo['idx'] == idx:
-                    format_print(todo['idx'], todo['status'], todo['text'])
-            return
-        if status is not None:
+                    format_show(todo['idx'], todo['status'], todo['text'])
+        elif status is not None:
             if status not in STATUS_CODE:
                 raise InvalidTodoStatus
             for todo in self.todos:
                 if todo['status'] == status:
-                    format_print(todo['idx'], todo['status'], todo['text'])
-            return
-        for todo in self.todos:
-            format_print(todo['idx'], todo['status'], todo['text'])
+                    format_show(todo['idx'], todo['status'], todo['text'])
+        else:
+            for todo in self.todos:
+                format_show(todo['idx'], todo['status'], todo['text'])
 
     def show_waiting_todos(self):
         self._show_todos(status=WAITING)

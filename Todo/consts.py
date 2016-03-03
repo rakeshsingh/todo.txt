@@ -5,12 +5,16 @@
 ##
 WAITING = 'o'
 COMPLETE = 'x'
-STATUS_CODE = [WAITING, COMPLETE]
+NOTODOS = '!'
+STATUS_CODE = [WAITING, COMPLETE, NOTODOS]
 
 ##
 # emoji for every status
 ##
 EMOJI = {
     WAITING: ':heavy_multiplication_x:',
-    COMPLETE: ':heavy_check_mark:'
+    COMPLETE: ':heavy_check_mark:',
+    NOTODOS: ':x:'
 }
+
+NO_TODOS_SHOW = [-1, NOTODOS, 'No todos...']

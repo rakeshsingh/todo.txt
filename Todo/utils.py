@@ -18,8 +18,11 @@ def _todo_from_file(line):
     }
 
 
-def format_print(idx, status, text):
+def format_show(idx, status, text):
     e = EMOJI.get(status, None)
     if e is None:
         raise
-    print emoji.emojize('{}. {}  {}'.format(idx, e, text), use_aliases=True)
+    if idx == -1:
+        print emoji.emojize(' {}  {}'.format(e, text), use_aliases=True)
+    else:
+        print emoji.emojize('{}. {}  {}'.format(idx, e, text), use_aliases=True)

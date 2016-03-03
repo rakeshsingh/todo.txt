@@ -10,7 +10,8 @@ conf = {
     "disable_existing_loggers": False,
     "formatters": {
         "simple": {
-            "format": "%(asctime)s - %(filename)s:%(lineno)s - %(levelname)s - %(message)s"
+            "format": "%(asctime)s - %(filename)s:%(lineno)s - %(levelname)s - %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S"
         }
     },
 
@@ -26,7 +27,7 @@ conf = {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "INFO",
             "formatter": "simple",
-            "filename": "info.log",
+            "filename": "/tmp/todos_info.log",
             "maxBytes": 10485760,
             "backupCount": 20,
             "encoding": "utf8"
@@ -36,7 +37,7 @@ conf = {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "ERROR",
             "formatter": "simple",
-            "filename": "errors.log",
+            "filename": "/tmp/todos_errors.log",
             "maxBytes": 10485760,
             "backupCount": 20,
             "encoding": "utf8"
@@ -50,6 +51,10 @@ conf = {
             "propagate": False
         }
     },
+    "root": {
+        "level": "INFO",
+        "handlers": ["console"]
+    }
 }
 
 
