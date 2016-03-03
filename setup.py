@@ -23,7 +23,7 @@ data = [
 ]
 
 setup(
-    name="todo",
+    name="todos",
     version=_get_version(),
     description="Command line lightweight todo tool with readable storage ,\
             written in Py",
