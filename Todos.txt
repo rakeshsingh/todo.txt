@@ -1,2 +1,2 @@
-1. [o] a test todo
+1. [x] a test todo
 2. [x] another todo
