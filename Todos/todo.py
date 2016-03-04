@@ -175,6 +175,7 @@ def todos(what, use, new, complete_ids, all, clear):
     try:
         if clear:
             t.clear_all()
+            t.write()
             return
         if new:
             t.add_todo(new)
