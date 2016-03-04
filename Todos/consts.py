@@ -18,5 +18,6 @@ EMOJI = {
 }
 
 DEFAULT_TODO_FILE = 'Todos.txt'
+TODO_FILE_NAME = '/tmp/todo_file_name.txt'
 
 NO_TODOS_SHOW = [-1, NOTODOS, 'No todos...']

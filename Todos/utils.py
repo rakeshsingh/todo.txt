@@ -3,7 +3,7 @@
 import re
 import emoji
 
-from .consts import EMOJI, DEFAULT_TODO_FILE
+from .consts import EMOJI, DEFAULT_TODO_FILE, TODO_FILE_NAME
 
 
 def _todo_from_file(line):
@@ -39,7 +39,7 @@ def format_show(idx, status, text):
 
 
 def set_todo_file(name):
-    with open('/tmp/todo_file_name.txt', 'w') as f:
+    with open(TODO_FILE_NAME, 'w') as f:
         f.write(name)
     return True
 
@@ -47,7 +47,7 @@ def set_todo_file(name):
 def get_todo_file():
     todo_file_name = None
     try:
-        with open('/tmp/todo_file_name.txt', 'r') as f:
+        with open(TODO_FILE_NAME, 'r') as f:
             todo_file_name = f.read().strip()
     except Exception:
         todo_file_name = DEFAULT_TODO_FILE
