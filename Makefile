@@ -8,5 +8,8 @@ tag:
 changelog:
 	@git log --first-parent --pretty="format:* %b" v`python setup.py --version`..
 
+test:
+	py.test tests
+
 
 .PHONY: changelog
