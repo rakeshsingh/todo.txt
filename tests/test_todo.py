@@ -11,7 +11,7 @@ def runner(request):
     return CliRunner()
 
 
-def test_new_todos(runner, monkeypatch):
+def test_list_waiting_todos(runner, monkeypatch):
     res = runner.invoke(todos)
     assert res.exit_code == 0
     assert res.output.decode('utf-8') == ''
