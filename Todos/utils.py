@@ -38,6 +38,10 @@ def format_show(idx, status, text):
         print emoji.emojize('{}. {}  {}'.format(idx, e, text), use_aliases=True)
 
 
+def _show(num):
+    print '#' * num
+
+
 def set_todo_file(name):
     with open(TODO_FILE_NAME, 'w') as f:
         f.write(name)

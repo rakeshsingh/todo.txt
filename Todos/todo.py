@@ -14,7 +14,8 @@ from .utils import(
     format_show,
     _todo_to_file,
     set_todo_file,
-    get_todo_file
+    get_todo_file,
+    _show
 )
 from .consts import (
     WAITING,
@@ -103,6 +104,7 @@ class Todo(object):
         :param status: what status's todos wants to show.
         default is None, means show all
         """
+        _show(50)
         if not self.todos:
             format_show(
                 NO_TODOS_SHOW[0],
@@ -121,6 +123,7 @@ class Todo(object):
         else:
             for todo in self.todos:
                 format_show(todo['idx'], todo['status'], todo['text'])
+        _show(50)
 
     def show_waiting_todos(self):
         self._show_todos(status=WAITING)
