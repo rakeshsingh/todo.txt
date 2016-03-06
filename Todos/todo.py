@@ -65,7 +65,7 @@ class Todo(object):
                 todos = map(_todo_from_file, tls)
                 self.todos = todos
                 for todo in todos:
-                    if self.current_max_idx< todo['idx']:
+                    if self.current_max_idx < todo['idx']:
                         self.current_max_idx = todo['idx']
         else:
             logger.warning('No todo files found, initialization a empty todo file')
@@ -89,8 +89,11 @@ class Todo(object):
                 if todo['idx'] == int(idx):
                     todo['status'] = COMPLETE
 
-    def remove_todo(self, idx):
-        pass
+    def remove_todo(self, idxs):
+        for idx in idxs:
+            for todo in self.todos:
+                if todo['idx'] == int(idx):
+                    self.todos.remove(todo)
 
     def clear_all(self):
         """clear todos
@@ -146,7 +149,7 @@ class Todo(object):
                     f.write(todo)
 
 
-def check_complete_ids(ctx, param, value):
+def check_ids(ctx, param, value):
     if not value:
         return []
     return value.split(',')
@@ -158,14 +161,16 @@ def check_complete_ids(ctx, param, value):
               help='show current use todo file\'s name')
 @click.option('--use', help='use `name` file to store your todos')
 @click.option('-n', '--new', help='new todo')
-@click.option('-c', '--complete_ids', type=str, callback=check_complete_ids,
+@click.option('-c', '--complete_ids', type=str, callback=check_ids,
               help='complete todo by id(s)'
                     ' - usage: todos -c 1,2')
+@click.option('-r', '--remove', type=str, callback=check_ids,
+              help='remove todo by id(s)')
 @click.option('--all', is_flag=True, default=False,
               help='show all todos')
 @click.option('--clear', is_flag=True, default=False,
               help='clear all todos, need confirm!!')
-def todos(what, use, new, complete_ids, all, clear):
+def todos(what, use, new, complete_ids, remove, all, clear):
     setup_logging()
     if use:
         set_todo_file(use)
@@ -180,11 +185,14 @@ def todos(what, use, new, complete_ids, all, clear):
             t.clear_all()
             t.write()
             return
-        if new:
+        elif new:
             t.add_todo(new)
             t.write()
         elif complete_ids:
             t.finish_todo(complete_ids)
+            t.write()
+        elif remove:
+            t.remove_todo(remove)
             t.write()
         else:
             if all:
