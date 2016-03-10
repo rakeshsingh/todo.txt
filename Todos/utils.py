@@ -39,7 +39,7 @@ def format_show(idx, status, text):
 
 
 def _show(num):
-    print '#' * num
+    print '=' * num
 
 
 def set_todo_file(name):
