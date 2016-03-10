@@ -134,7 +134,7 @@ class Todo(object):
                     _todos.append(todo)
             if not _todos:
                 self._show_no_todos(text_fix='No {} todos...'.format(
-                                    STATUS_CODE.get(status), None))
+                                    STATUS_CODE.get(status, None)))
             else:
                 for todo in _todos:
                     self._show_todos(todo)
