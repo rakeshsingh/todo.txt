@@ -1,6 +1,10 @@
 TODOS Changelog
 ===============
 
+0.1.1
+-----
+* support remove todo(s)
+
 0.1.0
 -----
 * support new a todo
