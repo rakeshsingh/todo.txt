@@ -102,40 +102,52 @@ class Todo(object):
         if confirm in ['Y', 'y']:
             self.todos = []
 
-    def _show_todos(self, status=None, idx=None):
+    def _show_no_todos(self):
+        format_show(
+            NO_TODOS_SHOW[0],
+            NO_TODOS_SHOW[1],
+            NO_TODOS_SHOW[2])
+
+    def _show_todos(self, todo):
+        format_show(todo['idx'], todo['status'], todo['text'])
+
+    def _show(self, status=None, idx=None):
         """show todos after format
         :param status: what status's todos wants to show.
         default is None, means show all
         """
         _show(50)
         if not self.todos:
-            format_show(
-                NO_TODOS_SHOW[0],
-                NO_TODOS_SHOW[1],
-                NO_TODOS_SHOW[2])
+            self._show_no_todos()
         elif idx is not None:
             for todo in self.todos:
                 if todo['idx'] == idx:
-                    format_show(todo['idx'], todo['status'], todo['text'])
+                    self._show_todos(todo)
         elif status is not None:
             if status not in STATUS_CODE:
                 raise InvalidTodoStatus
+            _todos = []
             for todo in self.todos:
                 if todo['status'] == status:
-                    format_show(todo['idx'], todo['status'], todo['text'])
+                    _todos.append(todo)
+            if not _todos:
+                self._show_no_todos()
+            else:
+                for todo in _todos:
+                    self._show_todos(todo)
         else:
             for todo in self.todos:
-                format_show(todo['idx'], todo['status'], todo['text'])
+                self._show_todos(todo)
         _show(50)
 
     def show_waiting_todos(self):
-        self._show_todos(status=WAITING)
+        self._show(status=WAITING)
 
     def show_done_todos(self):
-        self._show_todos(status=COMPLETE)
+        self._show(status=COMPLETE)
 
     def show_all_todos(self):
-        self._show_todos()
+        self._show()
 
     def write(self, delete_if_empty=False):
         """flush todos to file
