@@ -53,7 +53,7 @@ conf = {
     },
     "root": {
         "level": "INFO",
-        "handlers": ["console"]
+        "handlers": ["console", "info_file_handler", "error_file_handler"]
     }
 }
 
