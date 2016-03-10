@@ -38,8 +38,9 @@ def format_show(idx, status, text):
         print emoji.emojize('{}. {}  {}'.format(idx, e, text), use_aliases=True)
 
 
-def _show(num):
-    print '=' * num
+def _show(s, num):
+    if type(s) is str:
+        print s * num
 
 
 def set_todo_file(name):

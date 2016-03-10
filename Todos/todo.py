@@ -116,7 +116,7 @@ class Todo(object):
         :param status: what status's todos wants to show.
         default is None, means show all
         """
-        _show(50)
+        _show('', 50)
         if not self.todos:
             self._show_no_todos()
         elif idx is not None:
@@ -139,7 +139,7 @@ class Todo(object):
         else:
             for todo in self.todos:
                 self._show_todos(todo)
-        _show(50)
+        _show('', 50)
 
     def show_waiting_todos(self):
         self._show(status=WAITING)
