@@ -20,11 +20,14 @@ see `todos --help`
       --clear                  clear all todos, need confirm!!
       --help                   Show this message and exit.
 
-## What todo file like
-You don't care about this file, `todos` will operate it.
+## Storage
+`todos` will always use ./Todos.txt, if doesn't exist, `todos` will new an
+empty file in ./Todos.txt.
+So you don't care about this file, `todos` will operate it.
+The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 
-1. [ ] Test todo
-2. [ ] Another todo
+    1. [ ] Test todo
+    2. [ ] Another todo
 
 ## Installation
 `pip install todos`
