@@ -173,6 +173,8 @@ def check_ids(ctx, param, value):
 @click.option('--what', is_flag=True, default=False,
               help='show current use todo file\'s name')
 @click.option('--use', help='use `name` file to store your todos')
+@click.option('--done', is_flag=True, default=False,
+              help='show all done todos')
 @click.option('-n', '--new', help='new todo')
 @click.option('-c', '--complete_ids', type=str, callback=check_ids,
               help='complete todo by id(s)'
@@ -183,7 +185,7 @@ def check_ids(ctx, param, value):
               help='show all todos')
 @click.option('--clear', is_flag=True, default=False,
               help='clear all todos, need confirm!!')
-def todos(what, use, new, complete_ids, remove, all, clear):
+def todos(what, use, done, new, complete_ids, remove, all, clear):
     setup_logging()
     if use:
         set_todo_file(use)
@@ -210,6 +212,8 @@ def todos(what, use, new, complete_ids, remove, all, clear):
         else:
             if all:
                 t.show_all_todos()
+            elif done:
+                t.show_done_todos()
             else:
                 t.show_waiting_todos()
     except Exception as e:
