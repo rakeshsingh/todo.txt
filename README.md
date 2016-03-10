@@ -14,6 +14,7 @@ see `todos --help`
       --done                   show all done todos
       -n, --new TEXT           new todo
       -c, --complete_ids TEXT  complete todo by id(s) - usage: todos -c 1,2
+      -e, --edit TEXT...       edit todo by id - usage: todos -e 2 ``text``
       -r, --remove TEXT        remove todo by id(s)
       --all                    show all todos
       --clear                  clear all todos, need confirm!!
