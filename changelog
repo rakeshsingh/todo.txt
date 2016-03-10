@@ -1,6 +1,13 @@
 TODOS Changelog
 ===============
 
+0.2.0
+-----
+* support show all done todos
+* root logger add file handler
+* support edit todo by id
+* improve README
+
 0.1.1
 -----
 * support remove todo(s)
