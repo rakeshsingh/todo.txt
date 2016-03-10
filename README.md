@@ -1,9 +1,6 @@
 # Todo.py
 Command line lightweight todo tool with readable storage , written in Py.
 
-## Installation
-`pip install todos`
-
 ## Usage
 see `todos --help`
 
@@ -21,3 +18,6 @@ see `todos --help`
       --all                    show all todos
       --clear                  clear all todos, need confirm!!
       --help                   Show this message and exit.
+
+## Installation
+`pip install todos`
