@@ -6,7 +6,10 @@
 WAITING = 'o'
 COMPLETE = 'x'
 NOTODOS = '!'
-STATUS_CODE = [WAITING, COMPLETE, NOTODOS]
+STATUS_CODE = {
+    WAITING: 'waiting',
+    COMPLETE: 'done',
+    NOTODOS: 'no'}
 
 ##
 # emoji for every status

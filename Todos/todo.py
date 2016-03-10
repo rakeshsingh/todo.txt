@@ -102,11 +102,11 @@ class Todo(object):
         if confirm in ['Y', 'y']:
             self.todos = []
 
-    def _show_no_todos(self):
+    def _show_no_todos(self, text_fix=None):
         format_show(
             NO_TODOS_SHOW[0],
             NO_TODOS_SHOW[1],
-            NO_TODOS_SHOW[2])
+            text_fix or NO_TODOS_SHOW[2])
 
     def _show_todos(self, todo):
         format_show(todo['idx'], todo['status'], todo['text'])
@@ -131,7 +131,8 @@ class Todo(object):
                 if todo['status'] == status:
                     _todos.append(todo)
             if not _todos:
-                self._show_no_todos()
+                self._show_no_todos(text_fix='No {} todos...'.format(
+                                    STATUS_CODE.get(status), None))
             else:
                 for todo in _todos:
                     self._show_todos(todo)
