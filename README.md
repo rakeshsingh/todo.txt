@@ -31,3 +31,6 @@ The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 
 ## Installation
 `pip install todos`
+
+## Contributors
+https://github.com/MrKiven/Todo.py/graphs/contributors
