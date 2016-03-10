@@ -81,7 +81,9 @@ class Todo(object):
         })
 
     def edit_todo(self, idx, text):
-        pass
+        for todo in self.todos:
+            if todo['idx'] == int(idx):
+                todo['text'] = text
 
     def finish_todo(self, idxs):
         for idx in idxs:
@@ -179,13 +181,16 @@ def check_ids(ctx, param, value):
 @click.option('-c', '--complete_ids', type=str, callback=check_ids,
               help='complete todo by id(s)'
                     ' - usage: todos -c 1,2')
+@click.option('-e', '--edit', nargs=2, type=str,
+              help='edit todo by id'
+                   ' - usage: todos -e 2 ``text``')
 @click.option('-r', '--remove', type=str, callback=check_ids,
               help='remove todo by id(s)')
 @click.option('--all', is_flag=True, default=False,
               help='show all todos')
 @click.option('--clear', is_flag=True, default=False,
               help='clear all todos, need confirm!!')
-def todos(what, use, done, new, complete_ids, remove, all, clear):
+def todos(what, use, done, new, complete_ids, edit, remove, all, clear):
     setup_logging()
     if use:
         set_todo_file(use)
@@ -205,6 +210,9 @@ def todos(what, use, done, new, complete_ids, remove, all, clear):
             t.write()
         elif complete_ids:
             t.finish_todo(complete_ids)
+            t.write()
+        elif edit:
+            t.edit_todo(edit[0], edit[1])
             t.write()
         elif remove:
             t.remove_todo(remove)
