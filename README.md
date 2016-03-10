@@ -26,8 +26,8 @@ empty file in ./Todos.txt.
 So you don't care about this file, `todos` will operate it.
 The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 
-    1. [ ] Test todo
-    2. [ ] Another todo
+    1. [o] A Done todo
+    2. [x] A Waiting todo
 
 ## Installation
 `pip install todos`
