@@ -20,5 +20,11 @@ see `todos --help`
       --clear                  clear all todos, need confirm!!
       --help                   Show this message and exit.
 
+## What todo file like
+You don't care about this file, `todos` will operate it.
+
+1. [ ] Test todo
+2. [ ] Another todo
+
 ## Installation
 `pip install todos`
