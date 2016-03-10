@@ -21,8 +21,13 @@ see `todos --help`
       --help                   Show this message and exit.
 
 ## Storage
-`todos` will always use ./Todos.txt, if doesn't exist, `todos` will new an
-empty file in ./Todos.txt.
+`todos` will always use `./Todos.txt`, if doesn't exist, `todos` will new an
+empty file in `./Todos.txt`.
+
+If you excute `todos --use your_file_name`, then the file will change to ``your_file_name``, after then
+every your todos will storage to this file.
+Want to change back, just execute `todos --use your_file_name`. So easy!!
+
 So you don't care about this file, `todos` will operate it.
 The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 
