@@ -226,5 +226,3 @@ def todos(what, use, done, new, complete_ids, edit, remove, all, clear):
                 t.show_waiting_todos()
     except Exception as e:
         logger.error(e)
-    finally:
-        pass
