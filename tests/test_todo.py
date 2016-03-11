@@ -12,6 +12,12 @@ def runner(request):
 
 
 def test_list_waiting_todos(runner, monkeypatch):
-    res = runner.invoke(todos)
+    res = runner.invoke(todos, [])
+    assert not res.exception
     assert res.exit_code == 0
-    assert res.output.decode('utf-8') == ''
+
+
+def test_list_all_todos(runner, monkeypatch):
+    res = runner.invoke(todos, ['--all'])
+    assert not res.exception
+    assert res.exit_code == 0
