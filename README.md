@@ -39,3 +39,6 @@ The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 
 ## Contributors
 https://github.com/MrKiven/Todo.py/graphs/contributors
+
+## TODO
+take apart sub commands
