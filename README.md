@@ -34,6 +34,8 @@ The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
     1. [o] A Done todo
     2. [x] A Waiting todo
 
+[Example todo text](./Todos.txt)
+
 ## Installation
 `pip install todos`
 
