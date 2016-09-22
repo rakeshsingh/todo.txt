@@ -4,6 +4,9 @@ import re
 import emoji
 
 from .consts import EMOJI, DEFAULT_TODO_FILE, TODO_FILE_NAME
+from .colorizer import make_colorizer
+
+green = make_colorizer('darkgreen')
 
 
 def _todo_from_file(line):
