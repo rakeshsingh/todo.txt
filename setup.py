@@ -17,12 +17,16 @@ entry_points = [
     "todos = Todos.todo:todos"
 ]
 
+with open("README.md") as f:
+    long_description = f.read()
+
+
 setup(
     name="todos",
     version=_get_version(),
     description="Command line lightweight todo tool with readable storage ,\
             written in Py",
-    long_description=open("README.md").read(),
+    long_description=long_description,
     author="kiven",
     author_email="kiven.mr@gmail.com",
     packages=find_packages(),

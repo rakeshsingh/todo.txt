@@ -71,3 +71,8 @@ target/
 .build
 
 .ropeproject
+
+# venv
+.venv/
+venv/
+ENV/
