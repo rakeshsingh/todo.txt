@@ -1,6 +1,11 @@
 TODOS Changelog
 ===============
 
+0.2.1
+-----
+
+* Fix cannot install via pip
+
 0.2.0
 -----
 * support show all done todos
