@@ -1,26 +1,28 @@
 # -*- coding: utf-8 -*-
 
 ##
-# status for tods
+# status for todo
 ##
-WAITING = 'o'
+PENDING = 'o'
 COMPLETE = 'x'
 NOTODOS = '!'
 STATUS_CODE = {
-    WAITING: 'waiting',
+    PENDING: 'waiting',
     COMPLETE: 'done',
-    NOTODOS: 'no'}
+    NOTODOS: 'no'
+    }
 
 ##
 # emoji for every status
 ##
 EMOJI = {
-    WAITING: ':heavy_multiplication_x:',
+    PENDING: ':heavy_multiplication_x:',
     COMPLETE: ':heavy_check_mark:',
     NOTODOS: ':x:'
 }
 
-DEFAULT_TODO_FILE = 'Todos.txt'
+DEFAULT_TODO_DIR = '.'
+DEFAULT_TODO_FILE = 'todo.txt'
 TODO_FILE_NAME = '/tmp/todo_file_name.txt'
 
 NO_TODOS_SHOW = [-1, NOTODOS, 'No todos...']

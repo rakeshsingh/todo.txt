@@ -1,4 +1,0 @@
-1. [x] a test todo
-2. [x] another todo
-3. [o] waiting todo
-4. [o] sleeping

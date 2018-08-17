@@ -1,40 +1,21 @@
-# -*- coding: utf-8 -*-
+import setuptools
 
-import os
-import re
-from setuptools import setup, find_packages
+with open("README.md", "r") as fh:
+    long_description = fh.read()
 
-
-def _get_version():
-    v_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                               'Todos', '__init__.py')
-    ver_info_str = re.compile(r".*version_info = \((.*?)\)", re.S). \
-        match(open(v_file_path).read()).group(1)
-    return re.sub(r'(\'|"|\s+)', '', ver_info_str).replace(',', '.')
-
-entry_points = [
-    # todo
-    "todos = Todos.todo:todos"
-]
-
-with open("README.md") as f:
-    long_description = f.read()
-
-
-setup(
-    name="todos",
-    version=_get_version(),
-    description="Command line lightweight todo tool with readable storage ,\
-            written in Py",
+setuptools.setup(
+    name="todo.txt",
+    version="0.0.1",
+    author="Rakesh Singh",
+    author_email="kumar.rakesh@gmail.com",
+    description="Python package to manage a todo.txt style  file",
     long_description=long_description,
-    author="kiven",
-    author_email="kiven.mr@gmail.com",
-    packages=find_packages(),
-    url="https://github.com/MrKiven/Todo.py",
-    entry_points={"console_scripts": entry_points},
-    install_requires=[
-        'click==5.1',
-        'emoji==0.3.9'
+    long_description_content_type="text/markdown",
+    url="https://github.com/rakesh.singh/todo.txt",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-
 )
