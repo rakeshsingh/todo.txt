@@ -59,8 +59,7 @@ class TodoList:
     
     def add_todo(self, text):
         idx = self.current_max_idx + 1
-        self.tasks.append({'idx':idx, 'task':Todo(text)})
-        print(idx, len(self.tasks))
+        self.tasks.append({'idx':idx, 'task':Todo(text.strip())})
 
     def edit_todo(self, idx, text):
         for todo in self.tasks:
@@ -71,7 +70,8 @@ class TodoList:
         for idx in idxs:
             for todo in self.tasks:
                 if todo['idx'] == int(idx):
-                    todo['task'] = Todo('X ' + todo['task'].task_string)
+                    if todo['task'].task_string.lower()[0] !='x':
+                        todo['task'] = Todo('X ' + todo['task'].task_string) 
 
     def remove_todo(self, idxs):
         for idx in idxs:
@@ -82,7 +82,7 @@ class TodoList:
     def clear_all(self):
         """clear tasks
         """
-        confirm = raw_input('confirm ? (Y/N): ')
+        confirm = input('confirm ? (Y/N): ')
         if confirm in ['Y', 'y']:
             self.tasks = []
 
@@ -94,37 +94,30 @@ class TodoList:
         :param status: what status's tasks wants to show.
         default is None, means show all
         """
-        if not self.tasks:
-            print("No Tasks Available to show")
-        elif idx is not None:
-            for todo in self.tasks:
-                if todo['idx'] == idx:
-                    self._show_tasks(todo)
-        elif status is not None:
-            _tasks = []
-            for todo in self.tasks:
-                if todo['status'] == status:
-                    _tasks.append(todo)
-            if not _tasks:
-                self._show_no_tasks(text_fix='No {} tasks...'.format(
-                                    STATUS_CODE.get(status, None)))
-            else:
-                for todo in _tasks:
-                    self._show_tasks(todo)
-        else:
-            for todo in self.tasks:
-                self._show_tasks(todo)
+        _tasks = []
+        _tasks = list(filter(lambda x: 
+            (idx is None or idx == x['idx']) 
+            and (status is None or status == x['task'].completion) 
+            , self.tasks))
+        #_tasks = list(filter(lambda x: (True if idx is None or x['idx'] == idx) 
+        #    and ( True if status is None or x['task'].completion == completion ) , self.tasks)) 
+        for todo in _tasks:
+            self._show_tasks(todo)
 
     def show_waiting_tasks(self):
-        self._show(status=PENDING)
+        self._show(status=False)
 
     def show_done_tasks(self):
-        self._show(status=COMPLETE)
+        self._show(status=True)
 
     def show_all_tasks(self):
         self._show()
 
     def write(self, delete_if_empty=False):
+        self.write_txt()
+        self.write_md()
+
+    def write_txt(self, delete_if_empty=False):
         """flush tasks to file
         :param delete_if_empty: delete if todo is empty
         """
@@ -135,6 +128,26 @@ class TodoList:
                 for todo in self.tasks:
                     f.write(todo['task'].task_string)
                     f.write('\n')
+
+    def write_md(self, delete_if_empty=False):
+        """flush tasks to file
+        :param delete_if_empty: delete if todo is empty
+        """
+        filename = self.path +'.md'
+        with open(filename, 'w') as f:
+            if not self.tasks:
+                f.flush()
+            else:
+                for todo in self.tasks:
+                    task_string = todo['task'].task_string
+                    md_string = ''
+                    if task_string.lower()[0] == 'x':
+                        md_string ='[x]' + task_string[1:]
+                    else:
+                        md_string = '[ ] ' + task_string
+                    f.write(md_string)
+                    f.write('\n')
+
 
 class Todo:
     """ 
@@ -156,7 +169,7 @@ class Todo:
         """
         self.task_string = task_string
         self.hashkey = hashlib.md5(task_string.encode(encoding='utf-8'))
-        if task_string is not None and task_string.lower() == 'x':
+        if task_string is not None and task_string.lower()[0] == 'x':
             self.completion = True
         else:
             self.completion = False

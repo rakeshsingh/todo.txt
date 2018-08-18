@@ -26,14 +26,14 @@ If you excute `todos --use your_file_name`, then the file will change to ``your_
 every your todos will storage to this file.
 Want to change back, just execute `todos --use your_file_name`. So easy!!
 
-So you don't care about this file, `todos` will operate it.
-The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
-
-    1. [o] A Done todo
-    2. [x] A Waiting todo
-
 [Example todo text]
+
 ```
+X (A) one more another task test  +project @context dfdadfd 2018-08-02 #2018-08-02 due:2018-08-20
+(B) one more another task test  +project @context dfdadfd 2018-08-02 #2018-08-02 due:2018-08-20
+(C) another task with lower priority +project
+(D) 4 task with lower priority +project
+(E) 5 task with lower priority +project
 
 ```
 
@@ -41,7 +41,8 @@ The storage format is readbale, is ths `GitHub Flavored Markdown Task list`
 `pip install todo.txt`
 
 ## Contributors
-https://github.com/MrKiven/Todo.py/graphs/contributors
+https://github.com/rakeshsingh/todo.txt/graphs/contributors
 
 ## TODO
-take apart sub commands
+1. code to write generate github compatible todo.txt file
+

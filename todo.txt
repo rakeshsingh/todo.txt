@@ -1,5 +1,7 @@
-X (A) one more another task test  +project @context dfdadfd 2018-08-02 #2018-08-02 due:2018-08-20
-(B) one more another task test  +project @context dfdadfd 2018-08-02 #2018-08-02 due:2018-08-20
+X (B) one more another task test  +project @context dfdadfd 2018-08-02 #2018-08-02 due:2018-08-20
 (C) another task with lower priority +project
 (D) 4 task with lower priority +project
 (E) 5 task with lower priority +project
+X (A) this is a new task in +project with @context and author:rakesh and @context2
+new task in +project2
+another task in +project2

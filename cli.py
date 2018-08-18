@@ -6,7 +6,7 @@ import logging
 
 from todo.log import setup_logging
 from todo.todo import Todo, TodoList
-from todo.utils import get_todo_file
+from todo.utils import get_todo_file, set_todo_file
 
 
 logger = logging.getLogger(__name__)
@@ -28,8 +28,9 @@ def check_ids(ctx, param, value):
                     ' - usage: tasks -c 1,2')
 @click.option('-l', '--list', is_flag=True, default=False, help='show all tasks')
 @click.option('-ld', '--done', is_flag=True, default=False, help='show all done tasks')
-@click.option('-cl', '--clear', is_flag=True, default=False, help='clear all tasks, need confirm!!')
-def todo(use, done, add, complete, edit, remove, list, clear):
+@click.option('-lp', '--pending', is_flag=True, default=False, help='show all pending tasks')
+@click.option('-cl', '--clear', is_flag=True, default=False, help='clear all tasks, need confirmation.')
+def todo(use, done, pending,  add, complete, edit, remove, list, clear):
     setup_logging()
     if use:
         set_todo_file(use)
