@@ -142,9 +142,9 @@ class TodoList:
                     task_string = todo['task'].task_string
                     md_string = ''
                     if task_string.lower()[0] == 'x':
-                        md_string ='[x]' + task_string[1:]
+                        md_string ='- [x]' + task_string[1:]
                     else:
-                        md_string = '[ ] ' + task_string
+                        md_string = '- [ ] ' + task_string
                     f.write(md_string)
                     f.write('\n')
 
