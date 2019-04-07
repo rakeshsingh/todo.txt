@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from .consts import DEFAULT_TODO_FILE, TODO_FILE_NAME
+from .constants import DEFAULT_TODO_FILE, TODO_FILE_NAME
 from .colorizer import make_colorizer
 
 

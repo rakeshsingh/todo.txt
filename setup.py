@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Rakesh Singh",
     author_email="kumar.rakesh@gmail.com",
-    description="Python package to manage a todo.txt style  file",
+    description="Python Package to manage a todo.txt style  file",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rakesh.singh/todo.txt",
@@ -18,4 +18,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    test_suite = 'nose.collector'
 )

@@ -2,7 +2,7 @@ import unittest
 import os
 
 from todo.todo import Todo
-from todo.consts import DEFAULT_TODO_FILE
+from todo.constants import DEFAULT_TODO_FILE
 
 class TestTodo(unittest.TestCase):
     @classmethod
@@ -15,7 +15,7 @@ class TestTodo(unittest.TestCase):
     
     def test_parse(self):
         testtags = ['+project1']
-        self.assertEqual(self.td.parse('\+\w+', self.td.task_string), testtags)
+        self.assertEqual(self.td.parse(r'\+\w+', self.td.task_string), testtags)
 
     def test_get_tags(self):
         testtags = ['+project1']

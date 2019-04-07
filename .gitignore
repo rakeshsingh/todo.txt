@@ -4,3 +4,6 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+build/
+todo.txt.egg-info/
+*.egg-info/

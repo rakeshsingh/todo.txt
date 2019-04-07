@@ -7,16 +7,17 @@ import re
 import hashlib
 
 from .log import setup_logging
-from .exc import (
+from .exceptions import (
     InvalidTodoFile,
-    InvalidTodoStatus
+    InvalidTodoStatus,
+    TaskAlreadyExists,
 )
 from .utils import(
     print_colorful,
     set_todo_file,
     get_todo_file,
 )
-from .consts import (
+from .constants import (
     PENDING,
     COMPLETE,
     STATUS_CODE,
@@ -40,6 +41,7 @@ class TodoList:
         self.current_max_idx = 0
         self.tasks  = []
         counter = 0
+
         if os.path.isdir(self.path):
             raise InvalidTodoFile
         if os.path.exists(self.path):
@@ -47,7 +49,7 @@ class TodoList:
                 lines = [tl.strip() for tl in f if tl]
                 for line in lines:
                     counter = counter + 1 
-                    self.tasks.append({'idx': counter, 'task': Todo(line)})
+                    self.tasks.append({'idx': counter, 'hashkey':hashlib.md5(line.encode(encoding='utf-8')).hexdigest(), 'task': Todo(line)})
                 self.current_max_idx = counter
         else:
             logger.warning('No todo files found, initialization a empty todo file')
@@ -58,8 +60,15 @@ class TodoList:
         self._show_tasks(idx=idx)
     
     def add_todo(self, text):
+        '''
+            add a new todo task
+        '''
+        hashkey = hashlib.md5(text.encode(encoding='utf-8')).hexdigest()
+        for todo in self.tasks:
+            if todo['hashkey'] == hashkey:
+                raise TaskAlreadyExists('This task already exists at: ', todo['idx'])
         idx = self.current_max_idx + 1
-        self.tasks.append({'idx':idx, 'task':Todo(text.strip())})
+        self.tasks.append({'idx':idx, 'hashkey':hashkey, 'task':Todo(text.strip())})
 
     def edit_todo(self, idx, text):
         for todo in self.tasks:
@@ -70,8 +79,8 @@ class TodoList:
         for idx in idxs:
             for todo in self.tasks:
                 if todo['idx'] == int(idx):
-                    if todo['task'].task_string.lower()[0] !='x':
-                        todo['task'] = Todo('X ' + todo['task'].task_string) 
+                    if todo['task'].task_string[0] !='x':
+                        todo['task'] = Todo('x ' + todo['task'].task_string) 
 
     def remove_todo(self, idxs):
         for idx in idxs:
@@ -89,29 +98,22 @@ class TodoList:
     def _show_tasks(self, todo):
         print_colorful(todo['idx'], todo['task'])
 
-    def _show(self, status=None, idx=None):
+    def show_all_tasks(self, status=None, idx=None, vals=None):
         """show tasks after format
         :param status: what status's tasks wants to show.
         default is None, means show all
         """
         _tasks = []
+        # print('came here3')
+        # print(status, vals)
         _tasks = list(filter(lambda x: 
             (idx is None or idx == x['idx']) 
-            and (status is None or status == x['task'].completion) 
+            and (status is None or status == x['task'].completion)
+            and (vals is None or any(val in x['task'].task_string for val in vals))
             , self.tasks))
-        #_tasks = list(filter(lambda x: (True if idx is None or x['idx'] == idx) 
-        #    and ( True if status is None or x['task'].completion == completion ) , self.tasks)) 
         for todo in _tasks:
             self._show_tasks(todo)
 
-    def show_waiting_tasks(self):
-        self._show(status=False)
-
-    def show_done_tasks(self):
-        self._show(status=True)
-
-    def show_all_tasks(self):
-        self._show()
 
     def write(self, delete_if_empty=False):
         self.write_txt()
@@ -154,13 +156,15 @@ class Todo:
         Text Format:
         completion (priority) [completion_date]  [creation_date] description [+tags] [@context] [keyval]
     """
+    pattern_completion = r'[x]'
     pattern_tags = r'\+\w+'
     pattern_contexts = r'\@\w+'
     pattern_keyvals = r'\w+:\w+'
     pattern_priority = r'\(\w\)'
     pattern_priority = r'\(\w\)'
     pattern_dates = r'\d\d\d\d\-\d\d\-\d\d'
-    
+    pattern_todo = r'x?(\(\w\))?(\d\d\d\d\-\d\d\-\d\d){1,2}([\w(\@\w+)(\w+:\w+)(\+\w+)]*)'
+
     def __init__(self, task_string):
         """Todo Base Class
         :param todo_string
@@ -168,8 +172,8 @@ class Todo:
             t = Todo()
         """
         self.task_string = task_string
-        self.hashkey = hashlib.md5(task_string.encode(encoding='utf-8'))
-        if task_string is not None and task_string.lower()[0] == 'x':
+        self.hashkey = hashlib.md5(task_string.encode(encoding='utf-8')).hexdigest()
+        if task_string is not None and task_string[0] == 'x':
             self.completion = True
         else:
             self.completion = False
@@ -179,16 +183,16 @@ class Todo:
         self.keyvals = self.get_keyvals()
         dates = self.get_dates()
         if dates and len(dates)>0:
-            completion_date = dates[0]
+            self.completion_date = dates[0]
         else:
-            completion_date = None
+            self.completion_date = None
         if dates and len(dates)>1:
-            creation_date = dates[1]
+            self.creation_date = dates[1]
         else:
-            creation_date = None
+            self.creation_date = None
             
-        #(self.completion, self.priority, self.completion_date, self.creation_date,
-        #    self.description, self.tags, self.context, self.keyvals) = self.parse(task_string)
+        #  (self.completion, self.priority, self.completion_date, self.creation_date,
+        #  self.description, self.tags, self.context, self.keyvals) = self.parse(task_string)
 
     def parse(self, pattern, task_string):
         matches = re.findall(pattern, task_string)
