@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import click
 import logging
 import re
 import hashlib
@@ -39,7 +38,7 @@ class TodoList:
         self.todo_dir = todo_dir
         self.path = os.path.join(os.path.expanduser(self.todo_dir), name)
         self.current_max_idx = 0
-        self.tasks  = []
+        self.tasks = []
         counter = 0
 
         if os.path.isdir(self.path):
@@ -58,7 +57,7 @@ class TodoList:
 
     def __getitem__(self, idx):
         self._show_tasks(idx=idx)
-    
+
     def add_todo(self, text):
         '''
             add a new todo task
@@ -104,16 +103,12 @@ class TodoList:
         default is None, means show all
         """
         _tasks = []
-        # print('came here3')
-        # print(status, vals)
-        _tasks = list(filter(lambda x: 
-            (idx is None or idx == x['idx']) 
+        _tasks = list(filter(lambda x: (idx is None or idx == x['idx']) 
             and (status is None or status == x['task'].completion)
             and (vals is None or any(val in x['task'].task_string for val in vals))
             , self.tasks))
         for todo in _tasks:
             self._show_tasks(todo)
-
 
     def write(self, delete_if_empty=False):
         self.write_txt()
@@ -152,9 +147,9 @@ class TodoList:
 
 
 class Todo:
-    """ 
-        Text Format:
-        completion (priority) [completion_date]  [creation_date] description [+tags] [@context] [keyval]
+    """
+    Text Format:
+    completion (priority) [completion_date]  [creation_date] description [+tags] [@context] [keyval]
     """
     pattern_completion = r'[x]'
     pattern_tags = r'\+\w+'
@@ -190,13 +185,12 @@ class Todo:
             self.creation_date = dates[1]
         else:
             self.creation_date = None
-            
         #  (self.completion, self.priority, self.completion_date, self.creation_date,
         #  self.description, self.tags, self.context, self.keyvals) = self.parse(task_string)
 
     def parse(self, pattern, task_string):
         matches = re.findall(pattern, task_string)
-        return matches 
+        return matches
 
     def get_tags(self):
         tags = self.parse(self.pattern_tags, self.task_string)
@@ -220,6 +214,6 @@ class Todo:
             return matches[0][1]
         else:
             return None
-    
+
     def __str__(self):
         return self.task_string

@@ -1,3 +1,1 @@
-- [x] I have to write documentation for +Darwin by next week
-- [ ] (A) new taks for +project2
-- [ ] another task in +project2 with @context1
+- [ ] this is a new project

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 import click
 import logging
 
@@ -10,6 +9,7 @@ from todo.utils import get_todo_file, set_todo_file
 
 
 logger = logging.getLogger(__name__)
+
 
 def check_ids(ctx, param, value):
     if not value:
@@ -38,7 +38,7 @@ def todo(use, done, pending,  add, complete, edit, remove, list, clear, priority
     setup_logging()
     if vals:
         pass
-    else: 
+    else:
         vals = None
     if use:
         set_todo_file(use)

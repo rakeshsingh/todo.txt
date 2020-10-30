@@ -4,6 +4,7 @@ import os
 from todo.todo import Todo
 from todo.constants import DEFAULT_TODO_FILE
 
+
 class TestTodo(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -12,7 +13,7 @@ class TestTodo(unittest.TestCase):
 
     def test_init(self):
         self.assertEqual(os.path.exists(DEFAULT_TODO_FILE), True)
-    
+
     def test_parse(self):
         testtags = ['+project1']
         self.assertEqual(self.td.parse(r'\+\w+', self.td.task_string), testtags)
@@ -20,10 +21,10 @@ class TestTodo(unittest.TestCase):
     def test_get_tags(self):
         testtags = ['+project1']
         self.assertEqual(self.td.parse(self.td.pattern_tags, self.td.task_string), testtags)
-    
+
     def test_get_tags_1(self):
         self.assertEqual(len(self.td.parse(self.td1.pattern_tags, self.td1.task_string)),0)
-    
+
     def test_get_contexts(self):
         testcontexts = ['@context1']
         self.assertEqual(self.td.parse(self.td.pattern_contexts, self.td.task_string), testcontexts)
